@@ -1,7 +1,7 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"title": "Gemini CLI Settings",
-	"description": "Configuration schema for Gemini CLI settings.json files.",
+	"description": "Schema for the Gemini CLI settings.json file, managing configuration across user, workspace, and system scopes.",
 	"type": "object",
 	"properties": {
 		"mcpServers": {
@@ -13,6 +13,7 @@
 		},
 		"general": {
 			"type": "object",
+			"description": "General application settings.",
 			"properties": {
 				"preferredEditor": {
 					"type": "string",
@@ -32,6 +33,7 @@
 				},
 				"checkpointing": {
 					"type": "object",
+					"description": "Session checkpointing settings.",
 					"properties": {
 						"enabled": {
 							"type": "boolean",
@@ -77,6 +79,7 @@
 		},
 		"output": {
 			"type": "object",
+			"description": "Settings for the CLI output.",
 			"properties": {
 				"format": {
 					"type": "string",
@@ -87,6 +90,7 @@
 		},
 		"ui": {
 			"type": "object",
+			"description": "User interface settings.",
 			"properties": {
 				"theme": {
 					"type": "string",
@@ -121,6 +125,7 @@
 				},
 				"footer": {
 					"type": "object",
+					"description": "Settings for the footer.",
 					"properties": {
 						"hideCWD": {
 							"type": "boolean",
@@ -173,6 +178,7 @@
 				},
 				"accessibility": {
 					"type": "object",
+					"description": "Accessibility settings.",
 					"properties": {
 						"disableLoadingPhrases": {
 							"type": "boolean",
@@ -188,6 +194,7 @@
 		},
 		"ide": {
 			"type": "object",
+			"description": "IDE integration settings.",
 			"properties": {
 				"enabled": {
 					"type": "boolean",
@@ -201,6 +208,7 @@
 		},
 		"privacy": {
 			"type": "object",
+			"description": "Privacy-related settings.",
 			"properties": {
 				"usageStatisticsEnabled": {
 					"type": "boolean",
@@ -209,11 +217,11 @@
 			}
 		},
 		"telemetry": {
-			"$ref": "#/definitions/TelemetrySettings",
-			"description": "Telemetry configuration."
+			"$ref": "#/definitions/TelemetrySettings"
 		},
 		"model": {
 			"type": "object",
+			"description": "Settings related to the generative model.",
 			"properties": {
 				"name": {
 					"type": "string",
@@ -246,23 +254,34 @@
 			"properties": {
 				"aliases": {
 					"type": "object",
-					"description": "Named presets for model configs. Can be used in place of a model name and can inherit from other aliases using an `extends` property."
+					"description": "Named presets for model configs. Can be used in place of a model name and can inherit from other aliases using an `extends` property.",
+					"additionalProperties": {
+						"$ref": "#/definitions/ModelConfigAlias"
+					}
 				},
 				"overrides": {
 					"type": "array",
-					"description": "Apply specific configuration overrides based on matches, with a primary key of model (or alias). The most specific match will be used."
+					"description": "Apply specific configuration overrides based on matches, with a primary key of model (or alias). The most specific match will be used.",
+					"items": {
+						"$ref": "#/definitions/ModelConfigOverride"
+					}
 				}
 			}
 		},
 		"context": {
 			"type": "object",
+			"description": "Settings for managing context provided to the model.",
 			"properties": {
 				"fileName": {
-					"$ref": "#/definitions/StringOrStringArray",
+					"anyOf": [
+						{ "type": "string" },
+						{ "type": "array", "items": { "type": "string" } }
+					],
 					"description": "The name of the context file or files to load into memory. Accepts either a single string or an array of strings."
 				},
 				"importFormat": {
 					"type": "string",
+					"enum": ["tree", "flat"],
 					"description": "The format to use when importing memory."
 				},
 				"discoveryMaxDirs": {
@@ -306,13 +325,15 @@
 		},
 		"tools": {
 			"type": "object",
+			"description": "Settings for built-in and custom tools.",
 			"properties": {
 				"sandbox": {
-					"$ref": "#/definitions/BooleanOrString",
+					"anyOf": [{ "type": "boolean" }, { "type": "string" }],
 					"description": "Sandbox execution environment. Set to a boolean to enable or disable the sandbox, or provide a string path to a sandbox profile."
 				},
 				"shell": {
 					"type": "object",
+					"description": "Settings for shell execution.",
 					"properties": {
 						"enableInteractiveShell": {
 							"type": "boolean",
@@ -389,6 +410,7 @@
 		},
 		"mcp": {
 			"type": "object",
+			"description": "Settings for Model Context Protocol (MCP) servers.",
 			"properties": {
 				"serverCommand": {
 					"type": "string",
@@ -420,6 +442,7 @@
 		},
 		"security": {
 			"type": "object",
+			"description": "Security-related settings.",
 			"properties": {
 				"disableYoloMode": {
 					"type": "boolean",
@@ -427,6 +450,7 @@
 				},
 				"folderTrust": {
 					"type": "object",
+					"description": "Settings for folder trust.",
 					"properties": {
 						"enabled": {
 							"type": "boolean",
@@ -436,6 +460,7 @@
 				},
 				"auth": {
 					"type": "object",
+					"description": "Authentication settings.",
 					"properties": {
 						"selectedType": {
 							"type": "string",
@@ -443,7 +468,12 @@
 						},
 						"enforcedType": {
 							"type": "string",
-							"description": "The required auth type. If this does not match the selected auth type, the user will be prompted to re-authenticate."
+							"description": "The required auth type. If this does not match the selected auth type, the user will be prompted to re-authenticate.",
+							"enum": [
+								"dynamic_discovery",
+								"google_credentials",
+								"service_account_impersonation"
+							]
 						},
 						"useExternal": {
 							"type": "boolean",
@@ -455,6 +485,7 @@
 		},
 		"advanced": {
 			"type": "object",
+			"description": "Advanced settings for power users.",
 			"properties": {
 				"autoConfigureMemory": {
 					"type": "boolean",
@@ -462,6 +493,7 @@
 				},
 				"dnsResolutionOrder": {
 					"type": "string",
+					"enum": ["ipv4first", "verbatim"],
 					"description": "The DNS resolution order."
 				},
 				"excludedEnvVars": {
@@ -472,13 +504,13 @@
 					}
 				},
 				"bugCommand": {
-					"$ref": "#/definitions/BugCommandSettings",
-					"description": "Configuration for the bug report command."
+					"$ref": "#/definitions/BugCommandSettings"
 				}
 			}
 		},
 		"experimental": {
 			"type": "object",
+			"description": "Setting to enable experimental features",
 			"properties": {
 				"extensionManagement": {
 					"type": "boolean",
@@ -494,6 +526,7 @@
 				},
 				"codebaseInvestigatorSettings": {
 					"type": "object",
+					"description": "Configuration for Codebase Investigator.",
 					"properties": {
 						"enabled": {
 							"type": "boolean",
@@ -521,6 +554,7 @@
 		},
 		"extensions": {
 			"type": "object",
+			"description": "Settings for extensions.",
 			"properties": {
 				"disabled": {
 					"type": "array",
@@ -540,7 +574,16 @@
 		},
 		"hooks": {
 			"type": "object",
-			"description": "Hook configurations for intercepting and customizing agent behavior."
+			"description": "Hook configurations for intercepting and customizing agent behavior.",
+			"patternProperties": {
+				"^(BeforeTool|AfterTool|BeforeModel|AfterModel|SessionStart|SessionEnd|Notification)$": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/HookDefinition"
+					}
+				}
+			},
+			"additionalProperties": false
 		}
 	},
 	"definitions": {
@@ -724,37 +767,23 @@
 					"type": "object",
 					"additionalProperties": false,
 					"properties": {
-						"primary": {
-							"type": "string"
-						},
-						"secondary": {
-							"type": "string"
-						},
-						"link": {
-							"type": "string"
-						},
-						"accent": {
-							"type": "string"
-						}
+						"primary": { "type": "string" },
+						"secondary": { "type": "string" },
+						"link": { "type": "string" },
+						"accent": { "type": "string" }
 					}
 				},
 				"background": {
 					"type": "object",
 					"additionalProperties": false,
 					"properties": {
-						"primary": {
-							"type": "string"
-						},
+						"primary": { "type": "string" },
 						"diff": {
 							"type": "object",
 							"additionalProperties": false,
 							"properties": {
-								"added": {
-									"type": "string"
-								},
-								"removed": {
-									"type": "string"
-								}
+								"added": { "type": "string" },
+								"removed": { "type": "string" }
 							}
 						}
 					}
@@ -763,29 +792,19 @@
 					"type": "object",
 					"additionalProperties": false,
 					"properties": {
-						"default": {
-							"type": "string"
-						},
-						"focused": {
-							"type": "string"
-						}
+						"default": { "type": "string" },
+						"focused": { "type": "string" }
 					}
 				},
 				"ui": {
 					"type": "object",
 					"additionalProperties": false,
 					"properties": {
-						"comment": {
-							"type": "string"
-						},
-						"symbol": {
-							"type": "string"
-						},
+						"comment": { "type": "string" },
+						"symbol": { "type": "string" },
 						"gradient": {
 							"type": "array",
-							"items": {
-								"type": "string"
-							}
+							"items": { "type": "string" }
 						}
 					}
 				},
@@ -793,92 +812,205 @@
 					"type": "object",
 					"additionalProperties": false,
 					"properties": {
-						"error": {
-							"type": "string"
-						},
-						"success": {
-							"type": "string"
-						},
-						"warning": {
-							"type": "string"
-						}
+						"error": { "type": "string" },
+						"success": { "type": "string" },
+						"warning": { "type": "string" }
 					}
 				},
-				"Background": {
-					"type": "string"
-				},
-				"Foreground": {
-					"type": "string"
-				},
-				"LightBlue": {
-					"type": "string"
-				},
-				"AccentBlue": {
-					"type": "string"
-				},
-				"AccentPurple": {
-					"type": "string"
-				},
-				"AccentCyan": {
-					"type": "string"
-				},
-				"AccentGreen": {
-					"type": "string"
-				},
-				"AccentYellow": {
-					"type": "string"
-				},
-				"AccentRed": {
-					"type": "string"
-				},
-				"DiffAdded": {
-					"type": "string"
-				},
-				"DiffRemoved": {
-					"type": "string"
-				},
-				"Comment": {
-					"type": "string"
-				},
-				"Gray": {
-					"type": "string"
-				},
-				"DarkGray": {
-					"type": "string"
-				},
+				"Background": { "type": "string" },
+				"Foreground": { "type": "string" },
+				"LightBlue": { "type": "string" },
+				"AccentBlue": { "type": "string" },
+				"AccentPurple": { "type": "string" },
+				"AccentCyan": { "type": "string" },
+				"AccentGreen": { "type": "string" },
+				"AccentYellow": { "type": "string" },
+				"AccentRed": { "type": "string" },
+				"DiffAdded": { "type": "string" },
+				"DiffRemoved": { "type": "string" },
+				"Comment": { "type": "string" },
+				"Gray": { "type": "string" },
+				"DarkGray": { "type": "string" },
 				"GradientColors": {
 					"type": "array",
-					"items": {
-						"type": "string"
-					}
+					"items": { "type": "string" }
 				}
 			},
 			"required": ["type", "name"]
 		},
-		"StringOrStringArray": {
-			"description": "Accepts either a single string or an array of strings.",
-			"anyOf": [
-				{
-					"type": "string"
+		"ModelConfigAlias": {
+			"type": "object",
+			"description": "An alias for a model configuration, potentially extending another alias.",
+			"properties": {
+				"extends": {
+					"type": "string",
+					"description": "The name of another model config alias to extend."
 				},
-				{
-					"type": "array",
-					"items": {
-						"type": "string"
+				"modelConfig": {
+					"type": "object",
+					"description": "The model configuration settings for this alias.",
+					"properties": {
+						"model": {
+							"type": "string",
+							"description": "The base model name to use."
+						},
+						"generateContentConfig": {
+							"$ref": "#/definitions/GenerateContentConfig"
+						}
 					}
 				}
+			},
+			"required": ["modelConfig"]
+		},
+		"ModelConfigOverride": {
+			"type": "object",
+			"description": "A specific override for model configuration based on matching criteria.",
+			"properties": {
+				"match": {
+					"type": "object",
+					"description": "Criteria to match for applying this override.",
+					"properties": {
+						"model": {
+							"type": "string",
+							"description": "A model name or alias to match."
+						},
+						"overrideScope": {
+							"type": "string",
+							"description": "An optional scope for the override (e.g., an agent name)."
+						}
+					}
+				},
+				"modelConfig": {
+					"type": "object",
+					"description": "The model configuration to apply when matched.",
+					"properties": {
+						"model": {
+							"type": "string",
+							"description": "The model name to override with."
+						},
+						"generateContentConfig": {
+							"$ref": "#/definitions/GenerateContentConfig"
+						}
+					}
+				}
+			},
+			"required": ["match", "modelConfig"]
+		},
+		"GenerateContentConfig": {
+			"type": "object",
+			"description": "Configuration for content generation (from @google/genai).",
+			"properties": {
+				"temperature": {
+					"type": "number",
+					"description": "The temperature for sampling. Between 0.0 and 1.0 inclusive."
+				},
+				"topP": {
+					"type": "number",
+					"description": "The top-P value for sampling. Between 0.0 and 1.0 inclusive."
+				},
+				"topK": {
+					"type": "number",
+					"description": "The top-K value for sampling."
+				},
+				"candidateCount": {
+					"type": "number",
+					"description": "The number of generated responses to return."
+				},
+				"maxOutputTokens": {
+					"type": "number",
+					"description": "The maximum number of tokens to generate."
+				},
+				"stopSequences": {
+					"type": "array",
+					"items": { "type": "string" },
+					"description": "Stop sequences for generated responses."
+				}
+			},
+			"additionalProperties": true
+		},
+		"HookDefinition": {
+			"type": "object",
+			"description": "Defines a set of hooks for a specific event, optionally with a matcher.",
+			"properties": {
+				"matcher": {
+					"type": "string",
+					"description": "An optional glob pattern to match against event-specific data (e.g., tool name)."
+				},
+				"sequential": {
+					"type": "boolean",
+					"description": "If true, hooks will run sequentially, with output from one hook becoming input to the next.",
+					"default": false
+				},
+				"hooks": {
+					"type": "array",
+					"description": "An array of individual hook configurations.",
+					"items": {
+						"$ref": "#/definitions/HookConfig"
+					},
+					"minItems": 1
+				}
+			},
+			"required": ["hooks"]
+		},
+		"HookConfig": {
+			"type": "object",
+			"description": "Base configuration for a single hook.",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["command", "plugin"],
+					"description": "The type of hook (e.g., 'command' for external scripts)."
+				}
+			},
+			"required": ["type"],
+			"discriminator": {
+				"propertyName": "type"
+			},
+			"oneOf": [
+				{ "$ref": "#/definitions/CommandHookConfig" },
+				{ "$ref": "#/definitions/PluginHookConfig" }
 			]
 		},
-		"BooleanOrString": {
-			"description": "Accepts either a boolean flag or a string command name.",
-			"anyOf": [
-				{
-					"type": "boolean"
+		"CommandHookConfig": {
+			"type": "object",
+			"description": "Configuration for a command-line hook.",
+			"properties": {
+				"type": { "type": "string", "enum": ["command"] },
+				"command": {
+					"type": "string",
+					"description": "The command or script to execute."
 				},
-				{
-					"type": "string"
+				"timeout": {
+					"type": "number",
+					"description": "Maximum execution time in seconds.",
+					"default": 60
+				},
+				"args": {
+					"type": "array",
+					"description": "Additional command-line arguments.",
+					"items": { "type": "string" }
+				},
+				"env": {
+					"type": "object",
+					"description": "Environment variables for the command.",
+					"additionalProperties": { "type": "string" }
+				},
+				"cwd": {
+					"type": "string",
+					"description": "Working directory for the command."
 				}
-			]
+			},
+			"required": ["type", "command"],
+			"additionalProperties": false
+		},
+		"PluginHookConfig": {
+			"type": "object",
+			"description": "Configuration for a plugin hook (currently not detailed in provided code).",
+			"properties": {
+				"type": { "type": "string", "enum": ["plugin"] }
+			},
+			"required": ["type"],
+			"additionalProperties": true
 		}
 	}
 }
