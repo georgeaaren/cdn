@@ -16,6 +16,7 @@ This document provides an index of important markdown files in this repository, 
 - [Jules](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/jules.md): Use this document when working with the Jules API.
 - [React](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/react.md): Use this document when working with React.
 - [Shell Tools](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/shell-tools.md): Use this document when working with shell tools.
+- [Gemini Hooks](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/gemini-hooks.md): Use this document when working with the Gemini CLI's hooks system.
 
 ## Rules
 
