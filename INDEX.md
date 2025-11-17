@@ -33,3 +33,7 @@ This file is structured to provide contextual information to agents, ensuring th
 - [Creative Design](https://raw.githubusercontent.com/georgeaaren/cdn/main/skills/creative-design/SKILL.md): Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics.
 - [SaaS Design](https://raw.githubusercontent.com/georgeaaren/cdn/main/skills/saas-design/SKILL.md): Create distinctive, production-grade frontend interfaces specifically for **Software as a Service (SaaS) applications**. Focus on high design quality, advanced UX principles to manage complexity, optimize Information Architecture for efficient workflows, maximize performance (speed and efficiency for power users), and ensure strict WCAG accessibility and ethical compliance (avoiding dark patterns for long-term retention).
 - [shadcn/ui](https://raw.githubusercontent.com/georgeaaren/cdn/main/skills/shadcn-ui/SKILL.md): Install and configure shadcn/ui components for React applications. Use when adding UI components (buttons, forms, dialogs, etc.) to Next.js, Vite, Remix, or other React projects using Tailwind CSS and Radix UI primitives.
+
+## Tools
+
+[GitIngest](https://gitingest.com/llms.txt): Use this when you need to search for github respositories
