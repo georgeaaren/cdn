@@ -12,11 +12,13 @@ This file is structured to provide contextual information to agents, ensuring th
 ## Guides
 
 - [Codeflow MCP](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/codeflow-mcp.md): Use this document when working with Codeflow MCP.
+- [Context7 API](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/context7-api.md): Use this document when working with the Context7 API to search libraries and retrieve their documentation using curl commands.
 - [Creating Slash Commands](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/create-command.md): Use this document proactively when asked to create slash commands for Gemini.
 - [ffmpeg-wasm](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/ffmpeg-wasm.md): Use this document when working with ffmpeg or video/audio processing in a browser.
 - [Jules](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/jules.md): Use this document when working with the Jules API.
 - [React](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/react.md): Use this document when working with React.
 - [Shell Tools](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/shell-tools.md): Use this document when working with shell tools.
+- [Tone.js](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/tonejs.md): Use this document when working with Tone.js, a Web Audio Framework for creating interactive music in the browser.
 - [Gemini Hooks](https://raw.githubusercontent.com/georgeaaren/cdn/main/guides/gemini-hooks.md): Use this document when working with the Gemini CLI's hooks system.
 
 ## Rules
